@@ -1,0 +1,60 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.5.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+	id 'edu.sc.seis.launch4j' version '2.5.0'
+}
+
+description = 'This API will be responsible for managing the Apps that are registered to the Product. This will also serve as a User Service for User Authentication.'
+group = 'uk.co.yozu.wildanalytics'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+compileJava {
+	sourceCompatibility = '1.8'
+	targetCompatibility = '1.8'
+}
+
+repositories {
+	mavenCentral()
+	maven {
+		url "https://files.boxfuse.com"
+	}
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation group: 'com.h2database', name: 'h2', version: '1.4.200'
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+jar {
+	manifest {
+		attributes 'Main-Class': 'com.coincheck.coincheck.CoincheckApplication'
+	}
+}
+
+launch4j {
+	headerType="gui"
+	mainClassName = 'com.coincheck.coincheck.CoincheckApplication'
+	outfile = "Burj2.exe"
+//	icon = "${projectDir}/src/main/resources/images/icon.ico"
+	jar = '../libs/coincheck-0.0.1-SNAPSHOT.jar'
+}

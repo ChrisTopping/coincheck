@@ -1,0 +1,24 @@
+#java -jar .\coincheck-0.0.1-SNAPSHOT.jar --spring.config.location=file:./config/application.properties
+
+call-rate-milliseconds: 10000
+
+bsc-scan-api-key: "my-bsc-scan-api-key"
+
+email:
+  from: my.email@gmail.com
+  password: mypassword
+  to: my.email@gmail.com
+
+coins:
+  -
+    name: GUH
+    platform-id: binance-smart-chain
+    contract-address: "0x42069c0cf4da25420fc4c9d9001ba5af7846ccfd"
+    alert-configuration:
+      upper-million: 15
+      lower-million: 5
+      increase-percentage: 25
+      increase-minutes: 30
+      decrease-percentage: 10
+      decrease-minutes: 10
+      cooldown-minutes: 30
