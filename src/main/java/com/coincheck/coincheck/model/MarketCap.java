@@ -28,6 +28,9 @@ public class MarketCap {
     private Coin coin;
     private BigDecimal marketCapUsd;
 
+    private LocalDateTime fromDateTime;
+
     @CreatedDate
     private LocalDateTime createdDate;
+
 }

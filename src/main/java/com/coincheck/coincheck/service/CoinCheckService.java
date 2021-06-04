@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class CoinCheckService {
                 .builder()
                 .coin(coin)
                 .marketCapUsd(BigDecimal.valueOf(marketSupply.getResult().longValue() * 1e-9 * coinPrice.getUsd()))
+                .fromDateTime(LocalDateTime.ofEpochSecond(coinPrice.getLast_updated_at(), 0, ZoneOffset.UTC))
                 .build();
     }
 

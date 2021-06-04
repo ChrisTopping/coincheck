@@ -20,6 +20,7 @@ public class EmailService {
     private final EmailProperties emailProperties;
     private final JavaMailSender javaMailSender;
     private final List<EmailContributor> contributors;
+    private final DateTimeService dateTimeService;
 
     public void emailAlerts(List<Alert> alerts) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -34,7 +35,7 @@ public class EmailService {
         Alert alert = alerts.get(0);
         String coinName = alert.getMarketCap().getCoin().getName().toUpperCase();
         double marketCap = alert.getMarketCap().getMarketCapUsd().doubleValue();
-        return String.format("%s Market Cap: $%,.0f", coinName, marketCap);
+        return String.format("%s Market Cap: $%,.0f (%d minutes ago)", coinName, marketCap, dateTimeService.minutesAgoUTC(alert.getMarketCap().getFromDateTime()));
     }
 
     private String buildBody(List<Alert> alerts) {
@@ -44,7 +45,7 @@ public class EmailService {
 
         String bodyFromContributors = getReasonsFromContributors(alerts);
 
-        return String.format("%s market cap is currently $%,.0f.\n\nYou have received this email because:\n\n%s", coinName, marketCap, bodyFromContributors);
+        return String.format("%s market cap was $%,.0f %d minutes ago.\n\nYou have received this email because:\n\n%s", coinName, marketCap, dateTimeService.minutesAgoUTC(alert.getMarketCap().getFromDateTime()), bodyFromContributors);
     }
 
     private String getReasonsFromContributors(List<Alert> alerts) {

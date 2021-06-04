@@ -5,6 +5,7 @@ import com.coincheck.coincheck.model.Coin;
 import com.coincheck.coincheck.model.MarketCap;
 import com.coincheck.coincheck.repository.MarketCapRepository;
 import com.coincheck.coincheck.service.CoinCheckService;
+import com.coincheck.coincheck.service.DateTimeService;
 import com.coincheck.coincheck.service.MarketCapAlertService;
 import com.coincheck.coincheck.service.TtlService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class CoinCheckExecutor {
     private final CoinCheckService coinCheckService;
     private final MarketCapRepository marketCapRepository;
     private final MarketCapAlertService marketCapAlertService;
+    private final DateTimeService dateTimeService;
 
     @Transactional
     @Scheduled(fixedRateString = "${call-rate-milliseconds}")
@@ -42,7 +44,7 @@ public class CoinCheckExecutor {
             marketCapRepository.save(marketCap);
             marketCapAlertService.alert(marketCap);
             BigDecimal result = marketCap.getMarketCapUsd();
-            log.info("Market cap of " + coin.getName() + " is " + result);
+            log.info(String.format("Market cap of %s was $%,.2f %d minutes ago", coin.getName(), result, dateTimeService.minutesAgoUTC(marketCap.getFromDateTime())));
         });
     }
 
