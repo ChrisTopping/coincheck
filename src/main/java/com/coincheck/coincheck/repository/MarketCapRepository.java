@@ -11,4 +11,6 @@ import java.util.UUID;
 public interface MarketCapRepository extends JpaRepository<MarketCap, UUID> {
 
     List<MarketCap> findAllByCoinAndCreatedDateAfter(Coin coin, LocalDateTime createdDate);
+
+    void deleteByCreatedDateBefore(LocalDateTime createdDate);
 }

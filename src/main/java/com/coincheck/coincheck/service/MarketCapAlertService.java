@@ -1,7 +1,6 @@
 package com.coincheck.coincheck.service;
 
 import com.coincheck.coincheck.model.*;
-import com.coincheck.coincheck.repository.MarketCapRepository;
 import com.coincheck.coincheck.repository.SentAlertRepository;
 import com.coincheck.coincheck.service.alert_provider.AlertProvider;
 import lombok.RequiredArgsConstructor;

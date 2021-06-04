@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LowerEmailContributor implements EmailContributor {
-    
+
     @Override
     public boolean canContribute(AlertType alertType) {
         return AlertType.LOWER.equals(alertType);
