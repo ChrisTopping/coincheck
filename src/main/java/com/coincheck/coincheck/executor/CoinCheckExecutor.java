@@ -4,10 +4,7 @@ import com.coincheck.coincheck.configuration.CoinProperties;
 import com.coincheck.coincheck.model.Coin;
 import com.coincheck.coincheck.model.MarketCap;
 import com.coincheck.coincheck.repository.MarketCapRepository;
-import com.coincheck.coincheck.service.CoinCheckService;
-import com.coincheck.coincheck.service.DateTimeService;
-import com.coincheck.coincheck.service.MarketCapAlertService;
-import com.coincheck.coincheck.service.TtlService;
+import com.coincheck.coincheck.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -29,6 +26,7 @@ public class CoinCheckExecutor {
     private final MarketCapRepository marketCapRepository;
     private final MarketCapAlertService marketCapAlertService;
     private final DateTimeService dateTimeService;
+    private final GuhMarketCapService guhMarketCapService;
 
     @Transactional
     @Scheduled(fixedRateString = "${call-rate-milliseconds}")
@@ -40,7 +38,14 @@ public class CoinCheckExecutor {
 
         coins.forEach(coin -> {
             log.info("Checking market cap of " + coin.getName());
-            MarketCap marketCap = coinCheckService.getMarketCap(coin);
+
+            MarketCap marketCap;
+            if (guhMarketCapService.isGuh(coin)) {
+                marketCap = guhMarketCapService.getGuhMarketCap(coin);
+            } else {
+                marketCap = coinCheckService.getMarketCap(coin);
+            }
+
             marketCapRepository.save(marketCap);
             marketCapAlertService.alert(marketCap);
             BigDecimal result = marketCap.getMarketCapUsd();
