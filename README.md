@@ -85,7 +85,7 @@ In order for Coincheck to be able to access google's SMTP functionality, visit h
 
 Once the Coincheck jar file has been generated, and the `application.yml` file has been populated correctly, place the .yml in a /config subdirectory of the same directory as the .jar and run the command:
 
-    java -jar .\coincheck-0.0.1-SNAPSHOT.jar --spring.config.location=file:./config/application.yml
+    java -jar ./coincheck-0.0.1-SNAPSHOT.jar --spring.config.location=file:./config/application.yml
     
 To terminate the application, press CTRL+C in the terminal.
 
