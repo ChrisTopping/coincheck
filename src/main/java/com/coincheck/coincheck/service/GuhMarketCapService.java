@@ -45,14 +45,14 @@ public class GuhMarketCapService {
     }
 
     private double getGuhCoinPrice() {
-        return callBscDataseedForTokenAndId("0x3bc5de30", 5, "0x456b450f7d9e033418ae26c357f8b83ad3d1f172");
+        return callBscDataseedForTokenAndId("0x3bc5de30", 5, "0x456b450f7d9e033418ae26c357f8b83ad3d1f172", 1e-18);
     }
 
     private double getGuhTotalSupply() {
-        return callBscDataseedForTokenAndId("0x18160ddd", 6, "0x42069c0cf4da25420fc4c9d9001ba5af7846ccfd");
+        return callBscDataseedForTokenAndId("0x18160ddd", 6, "0x42069c0cf4da25420fc4c9d9001ba5af7846ccfd", 1e-9);
     }
 
-    private double callBscDataseedForTokenAndId(String hash, int id, String to) {
+    private double callBscDataseedForTokenAndId(String hash, int id, String to, double factor) {
         BscDataseedRequest request = BscDataseedRequest
                 .builder()
                 .jsonrpc("2.0")
@@ -80,7 +80,7 @@ public class GuhMarketCapService {
                 BscDataseedResponse.class
         );
 
-        return new BigInteger(response.getBody().getResult().substring(2), 16).longValue() / 1000000000.0;
+        return new BigInteger(response.getBody().getResult().substring(2), 16).longValue() * factor;
     }
 
 }
